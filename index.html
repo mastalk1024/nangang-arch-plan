@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2b2925">
+<meta name="description" content="南港高工建築科三年生涯規劃：升學(統測/推甄/科大建築系)、全球通用證照(英文/繪圖BIM/技術士)、國外路徑與獎學金、產業銜接與行動檢核表。">
+<title>南港高工建築科 · 三年生涯規劃儀表板</title>
+<style>
+  :root{
+    --paper:#f4f1ea; --card:#fffdf8; --ink:#22201c; --muted:#6d675c;
+    --line:#e2dccf; --line2:#d3ccbc;
+    --terra:#b5623c; --terra-soft:#f0dcd0;
+    --teal:#2f6d6a; --teal-soft:#d6e6e4;
+    --gold:#b08430; --gold-soft:#f0e5c8;
+    --blue:#3a5a8c; --blue-soft:#dce4f0;
+    --plum:#7a4f74; --plum-soft:#ecdfe9;
+    --ok:#3f7d52;
+    --shadow:0 1px 2px rgba(40,34,25,.05),0 6px 20px rgba(40,34,25,.07);
+    --r:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+  /* Header */
+  header.hero{background:linear-gradient(135deg,#2b2925 0%,#3b3830 55%,#4a4133 100%);color:#f4f1ea;padding:38px 0 30px;position:relative;overflow:hidden}
+  header.hero::after{content:"";position:absolute;right:-60px;top:-40px;width:280px;height:280px;
+    background:repeating-linear-gradient(45deg,rgba(181,98,60,.16) 0 2px,transparent 2px 16px);transform:rotate(8deg)}
+  .hero .kicker{letter-spacing:.32em;font-size:12px;color:#d8b48f;font-weight:700;text-transform:uppercase}
+  .hero h1{margin:.25em 0 .1em;font-size:30px;line-height:1.25;font-weight:800}
+  .hero .sub{color:#cfc7b6;font-size:15px;max-width:720px}
+  .hero .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:999px;
+    padding:6px 13px;font-size:12.5px;color:#eee}
+  .chip b{color:#f0d3ad}
+
+  /* Sticky nav */
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(244,241,234,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line2)}
+  nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;padding:8px 20px}
+  nav.tabs button{white-space:nowrap;border:0;background:transparent;color:var(--muted);font-weight:700;
+    font-size:14px;padding:9px 14px;border-radius:10px;cursor:pointer;font-family:inherit;transition:.15s}
+  nav.tabs button:hover{color:var(--ink);background:#e9e4d8}
+  nav.tabs button.active{background:var(--ink);color:#f4f1ea}
+
+  main{padding:26px 0 70px}
+  section.panel{display:none;animation:fade .35s ease}
+  section.panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  h2.sec{font-size:22px;margin:6px 0 4px;font-weight:800}
+  .lead{color:var(--muted);margin:0 0 20px;font-size:15px;max-width:820px}
+  h3.blk{font-size:16px;margin:26px 0 12px;font-weight:800;display:flex;align-items:center;gap:9px}
+  h3.blk::before{content:"";width:8px;height:22px;border-radius:3px;background:var(--terra)}
+  h3.blk.t::before{background:var(--teal)} h3.blk.g::before{background:var(--gold)}
+  h3.blk.b::before{background:var(--blue)} h3.blk.p::before{background:var(--plum)}
+
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:820px){.g3,.g2,.g4{grid-template-columns:1fr}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px;box-shadow:var(--shadow)}
+  .card h4{margin:0 0 6px;font-size:15.5px;font-weight:800}
+  .card p{margin:.3em 0;font-size:13.7px;color:#413d35}
+  .tag{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;margin:2px 4px 2px 0}
+  .tag.terra{background:var(--terra-soft);color:#8f4425}
+  .tag.teal{background:var(--teal-soft);color:#1f4b49}
+  .tag.gold{background:var(--gold-soft);color:#7d5c15}
+  .tag.blue{background:var(--blue-soft);color:#2b4468}
+  .tag.plum{background:var(--plum-soft);color:#5a3856}
+  .tag.ok{background:#dcecdf;color:#2c5c3c}
+
+  /* stat tiles */
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+  .stat .n{font-size:26px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .stat.terra .n{color:var(--terra)} .stat.teal .n{color:var(--teal)}
+  .stat.gold .n{color:var(--gold)} .stat.blue .n{color:var(--blue)}
+
+  /* timeline */
+  .tl-year{border:1px solid var(--line);border-radius:var(--r);background:var(--card);margin-bottom:14px;
+    box-shadow:var(--shadow);overflow:hidden}
+  .tl-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;user-select:none}
+  .tl-head:hover{background:#faf7f0}
+  .yr-badge{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+    font-weight:800;color:#fff;font-size:13px;text-align:center;line-height:1.1}
+  .yr1{background:linear-gradient(135deg,#b5623c,#94441f)}
+  .yr2{background:linear-gradient(135deg,#2f6d6a,#1c4a48)}
+  .yr3{background:linear-gradient(135deg,#3a5a8c,#26406a)}
+  .tl-head h4{margin:0;font-size:16.5px;font-weight:800}
+  .tl-head .th{color:var(--muted);font-size:13px;margin-top:2px}
+  .tl-head .arrow{margin-left:auto;transition:.25s;color:var(--muted);font-size:20px}
+  .tl-year.open .arrow{transform:rotate(90deg)}
+  .tl-body{display:none;padding:2px 18px 18px;border-top:1px solid var(--line)}
+  .tl-year.open .tl-body{display:block}
+  .tl-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+  @media(max-width:820px){.tl-cols{grid-template-columns:1fr}}
+  .mini{border:1px solid var(--line);border-radius:12px;padding:12px 13px;background:#fdfbf6}
+  .mini .cap{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--terra);margin-bottom:6px}
+  .mini.t .cap{color:var(--teal)} .mini.g .cap{color:var(--gold)} .mini.b .cap{color:var(--blue)}
+  .mini ul{margin:0;padding-left:17px} .mini li{font-size:13.3px;margin:3px 0;color:#413d35}
+
+  /* tables */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;min-width:640px;background:var(--card);font-size:13.4px}
+  th,td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:#efe9dc;font-weight:800;color:#403b31;position:sticky;top:0}
+  tbody tr:hover{background:#faf7f0}
+  td b{color:var(--ink)}
+  .star{color:var(--gold)}
+
+  /* certification filter */
+  .filterbar{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px}
+  .filterbar button{border:1px solid var(--line2);background:var(--card);color:var(--muted);font-weight:700;
+    font-size:13px;padding:7px 14px;border-radius:999px;cursor:pointer;font-family:inherit;transition:.15s}
+  .filterbar button.active{background:var(--ink);color:#f4f1ea;border-color:var(--ink)}
+  .certcard{position:relative}
+  .certcard .lvl{position:absolute;top:14px;right:14px;font-size:11px;font-weight:800;color:#fff;
+    padding:3px 9px;border-radius:999px}
+  .lv-easy{background:#5a9c6b} .lv-mid{background:#c99a3a} .lv-hard{background:#b5623c}
+
+  /* certification roadmap (ordered by time) */
+  .legend{display:flex;flex-wrap:wrap;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:11px 15px;margin:2px 0 20px;font-size:12.8px;box-shadow:var(--shadow)}
+  .legend b{font-size:12.8px}
+  .lg{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+  .dot{width:14px;height:14px;border-radius:50%;flex:none}
+  .dot.en{background:#2f6d6a} .dot.cad{background:#3a5a8c} .dot.pro{background:#b5623c}
+  .roadmap{margin:6px 0 2px}
+  .step{display:flex;gap:16px}
+  .step .rail{display:flex;flex-direction:column;align-items:center;flex:none}
+  .step .num{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;
+    font-size:16px;box-shadow:var(--shadow)}
+  .step .line{width:2px;flex:1;background:var(--line2);margin:5px 0;min-height:14px}
+  .step:last-child .line{display:none}
+  .step .body{padding:3px 0 22px;flex:1}
+  .step .when{display:inline-block;font-size:11.5px;font-weight:800;color:#f4f1ea;background:var(--ink);
+    border-radius:999px;padding:2px 11px;margin-bottom:6px}
+  .step h4{margin:2px 0 4px;font-size:15.5px;font-weight:800}
+  .step h4 .diff{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle}
+  .diff.d1{background:#dcecdf;color:#2c5c3c} .diff.d2{background:var(--gold-soft);color:#7d5c15} .diff.d3{background:var(--terra-soft);color:#8f4425}
+  .step p{margin:.2em 0;font-size:13.4px;color:#413d35}
+  .num.c-en{background:linear-gradient(135deg,#2f6d6a,#1c4a48)}
+  .num.c-cad{background:linear-gradient(135deg,#3a5a8c,#26406a)}
+  .num.c-pro{background:linear-gradient(135deg,#b5623c,#8f4425)}
+  .step.opt .num{background:linear-gradient(135deg,#9a9384,#6d675c)}
+  .catline{font-size:11.5px;font-weight:800;letter-spacing:.04em;color:var(--muted);margin-top:2px}
+
+  /* checklist */
+  .prog{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:18px}
+  .bar{height:12px;background:#e7e1d4;border-radius:99px;overflow:hidden;margin-top:8px}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--terra));transition:.4s}
+  .checklist{list-style:none;margin:0;padding:0}
+  .checklist li{display:flex;gap:11px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);
+    border-radius:12px;margin-bottom:8px;background:var(--card);cursor:pointer;transition:.15s}
+  .checklist li:hover{background:#faf7f0}
+  .checklist li.done{background:#f0f5ef;border-color:#cfe3d2}
+  .checklist li.done .txt{text-decoration:line-through;color:var(--muted)}
+  .cbox{flex:none;width:20px;height:20px;border:2px solid var(--line2);border-radius:6px;margin-top:2px;
+    display:grid;place-items:center;font-size:13px;color:#fff}
+  .checklist li.done .cbox{background:var(--ok);border-color:var(--ok)}
+  .txt{font-size:13.8px}
+  .txt small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+
+  .note{background:#fbf6ea;border:1px solid var(--gold-soft);border-left:4px solid var(--gold);
+    border-radius:10px;padding:12px 15px;font-size:13.3px;color:#5f5236;margin:14px 0}
+  .callout{background:var(--teal-soft);border:1px solid #bcd7d4;border-radius:12px;padding:14px 16px;font-size:13.6px;margin:10px 0}
+  footer{border-top:1px solid var(--line2);padding:22px 0;color:var(--muted);font-size:12.5px}
+  a{color:var(--teal)}
+  .src{font-size:11.5px;color:var(--muted);margin-top:4px}
+  /* phone polish */
+  @media(max-width:560px){
+    .wrap{padding:0 14px}
+    header.hero{padding:26px 0 22px}
+    .hero h1{font-size:23px} .hero .sub{font-size:13.5px}
+    .hero .meta{gap:7px} .chip{font-size:11.5px;padding:5px 10px}
+    nav.tabs .wrap{padding:7px 12px;gap:2px}
+    nav.tabs button{font-size:13px;padding:8px 11px}
+    main{padding:20px 0 56px}
+    h2.sec{font-size:19px} .lead{font-size:14px}
+    h3.blk{font-size:15px}
+    .card{padding:15px} .card h4{font-size:15px}
+    .stat .n{font-size:22px}
+    .tl-head{padding:13px 13px;gap:11px}
+    .yr-badge{width:46px;height:46px;font-size:12px}
+    .tl-head h4{font-size:15px} .tl-body{padding:2px 13px 15px}
+    .step .num{width:34px;height:34px;font-size:14px}
+    .step{gap:12px}
+    .legend{gap:9px 14px;font-size:12px}
+    table{font-size:12.8px} th,td{padding:9px 10px}
+    .scrollhint{display:block}
+  }
+  .scrollhint{display:none;font-size:11.5px;color:var(--muted);margin:-8px 0 10px;text-align:right}
+  @media print{nav.tabs{display:none}section.panel{display:block!important}.tl-body{display:block!important}.scrollhint{display:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Career Roadmap · 2026–2029</div>
+    <h1>南港高工建築科 · 三年生涯規劃儀表板</h1>
+    <p class="sub">以「升學前三大科大／頂尖建築系」為主軸，串接全球通用的英文、繪圖／BIM 與建築專業證照，並確保每一步都能與現在的建築產業實務銜接。</p>
+    <div class="meta">
+      <span class="chip">起點：<b>建築科 高一</b></span>
+      <span class="chip">英文起點：<b>會考 A～A+（約 CEFR B1）</b></span>
+      <span class="chip">目標：<b>台科大／北科大建築系 · 國外備援</b></span>
+      <span class="chip">主訴求：<b>可落實 · 產業可銜接</b></span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap" id="tabbar">
+    <button class="active" data-t="overview">總覽</button>
+    <button data-t="timeline">三年時間軸</button>
+    <button data-t="certs">證照地圖</button>
+    <button data-t="domestic">國內升學</button>
+    <button data-t="overseas">國外路徑</button>
+    <button data-t="industry">產業銜接</button>
+    <button data-t="action">行動檢核表</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============ OVERVIEW ============ -->
+<section class="panel active" id="overview">
+  <h2 class="sec">規劃總覽</h2>
+  <p class="lead">這份規劃把三年拆成三條並行的主軸同時推進：升學競爭力、國際通用證照、產業實作能力。三者互相加分——證照與作品集既是統測甄選備審的亮點，也是國外申請作品集與未來就業的底子。</p>
+
+  <div class="grid g4">
+    <div class="stat terra"><div class="n">3</div><div class="l">主軸：升學 · 證照 · 產業</div></div>
+    <div class="stat teal"><div class="n">100%</div><div class="l">南港建築科歷年升學率</div></div>
+    <div class="stat gold"><div class="n">甲乙丙</div><div class="l">校內即設有建築製圖技能檢定場</div></div>
+    <div class="stat blue"><div class="n">2+3</div><div class="l">國內雙保險＋國外三選項並進</div></div>
+  </div>
+
+  <h3 class="blk">三大主軸怎麼互相加分</h3>
+  <div class="grid g3">
+    <div class="card">
+      <span class="tag terra">主軸一</span><h4>升學競爭力</h4>
+      <p>主力走 <b>統測（土木與建築群／設計群）→ 四技二專甄選入學</b>，鎖定台科大、北科大、雲科大建築系；同時保留學測 / 特殊選才通往成大、淡江、東海等一般大學建築系的機會。</p>
+    </div>
+    <div class="card">
+      <span class="tag teal">主軸二</span><h4>全球通用證照</h4>
+      <p>英文走 <b>TOEIC → IELTS/TOEFL</b>；繪圖走 <b>Autodesk 國際認證（Revit / AutoCAD）＋ SketchUp</b>；專業走 <b>建築製圖技術士（丙→乙）</b>。國際證照是國內外通吃的硬實力。</p>
+    </div>
+    <div class="card">
+      <span class="tag gold">主軸三</span><h4>產業可銜接</h4>
+      <p>學校已導入 <b>Revit、SketchUp 等 BIM 教學與 3D 專題</b>。以「一份會成長的作品集」貫穿三年，讓建模、製圖、設計思考直接對應建築師事務所、營造與室內設計的實務需求。</p>
+    </div>
+  </div>
+
+  <h3 class="blk t">一頁看懂三年節奏</h3>
+  <div class="grid g3">
+    <div class="card"><span class="tag terra">高一 · 打底</span><h4>基本功＋方向</h4><p>把手繪、CAD、建模與基礎英文練扎實；先拿下最容易入手的技術士與 Autodesk 入門證照，建立信心與作品集雛形。</p></div>
+    <div class="card"><span class="tag teal">高二 · 進階</span><h4>拉開差距</h4><p>衝 TOEIC 高分、考進階證照、參加全國競賽與專題；確定升學主戰場（國內為主／國外為輔），開始整理正式作品集。</p></div>
+    <div class="card"><span class="tag blue">高三 · 收成</span><h4>轉換成錄取</h4><p>統測衝刺與甄選備審全力產出；若走國外，完成 IELTS 與申請作品集、面試與獎學金投遞。</p></div>
+  </div>
+
+  <div class="note">📌 使用方式：上方頁籤可切換各主題；「三年時間軸」與各卡片可點開展開細節；「行動檢核表」可勾選追蹤進度（進度僅存在本次瀏覽，關閉不保存）。</div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section class="panel" id="timeline">
+  <h2 class="sec">三年時間軸（可點開展開）</h2>
+  <p class="lead">每一年同時推進「學校課業／證照／英文／作品集與升學」四條線。點各年度標題展開細節。</p>
+
+  <!-- 高一 -->
+  <div class="tl-year open">
+    <div class="tl-head"><div class="yr-badge yr1">高一<br>115學年</div>
+      <div><h4>打底期：基本功與方向探索</h4><div class="th">手繪 × CAD × 建模基礎，先拿入門證照、建立作品集雛形</div></div>
+      <div class="arrow">›</div></div>
+    <div class="tl-body">
+      <div class="tl-cols">
+        <div class="mini"><div class="cap">學校課業重點</div><ul>
+          <li>建築製圖（手繪）、工程測量、基礎工程力學打穩</li>
+          <li>電腦繪圖：AutoCAD 2D 上手</li>
+          <li>穩住國文、英文、數學——統測共同科目從高一顧起</li></ul></div>
+        <div class="mini t"><div class="cap">證照目標</div><ul>
+          <li>下學期報考 <b>丙級建築製圖應用（手繪或電繪）</b>（校內就是檢定場）</li>
+          <li>暑假挑戰 <b>Autodesk Certified User（AutoCAD 或 Revit）</b> 入門國際證照</li></ul></div>
+        <div class="mini g"><div class="cap">英文目標</div><ul>
+          <li>維持會考 A～A+ 語感，補建築英文單字</li>
+          <li>學期末打一次 <b>TOEIC 模擬</b>抓基準（目標實測 ≥ 600）</li></ul></div>
+        <div class="mini b"><div class="cap">作品集 / 升學</div><ul>
+          <li>建立「作品集資料夾」：每份製圖、模型、專題都拍照存檔</li>
+          <li>參加科內或校外設計 / 製圖比賽，累積第一筆紀錄</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 高二 -->
+  <div class="tl-year">
+    <div class="tl-head"><div class="yr-badge yr2">高二<br>116學年</div>
+      <div><h4>進階期：拉開差距、確定戰場</h4><div class="th">衝英檢高分、考進階證照、參賽與專題、決定國內為主／國外為輔</div></div>
+      <div class="arrow">›</div></div>
+    <div class="tl-body">
+      <div class="tl-cols">
+        <div class="mini"><div class="cap">學校課業重點</div><ul>
+          <li>建築構造、結構、材料與試驗——統測專業一核心</li>
+          <li>測量實習、製圖實習——統測專業二核心</li>
+          <li>Revit / SketchUp 建模與 3D 專題進階</li></ul></div>
+        <div class="mini t"><div class="cap">證照目標</div><ul>
+          <li>考 <b>乙級建築製圖應用</b>（或另一種手繪/電繪別）</li>
+          <li>加考 <b>測量丙級</b>，強化統測專業科目</li>
+          <li>進階 <b>Autodesk Certified Professional（Revit 建築）</b></li></ul></div>
+        <div class="mini g"><div class="cap">英文目標</div><ul>
+          <li><b>TOEIC 目標 750→850+</b>（備審與國內加分用）</li>
+          <li>若確定要國外：暑假開始接觸 <b>IELTS</b>，目標先到 5.5–6.0</li></ul></div>
+        <div class="mini b"><div class="cap">作品集 / 升學</div><ul>
+          <li>整理 3–5 件代表作，做成正式作品集初版</li>
+          <li>衝全國技藝競賽 / 設計競賽（甄選備審大加分）</li>
+          <li>下定決心：升學主戰場與 2 所夢幻、2 所安全校系</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 高三 -->
+  <div class="tl-year">
+    <div class="tl-head"><div class="yr-badge yr3">高三<br>117學年</div>
+      <div><h4>收成期：把實力轉換成錄取</h4><div class="th">統測衝刺＋甄選備審；國外則完成 IELTS、作品集、面試與獎學金</div></div>
+      <div class="arrow">›</div></div>
+    <div class="tl-body">
+      <div class="tl-cols">
+        <div class="mini"><div class="cap">學校課業重點</div><ul>
+          <li>統測總複習：國英數＋專業一（力學/材料）＋專業二（測量/製圖）</li>
+          <li>把 BIM 專題做成畢業代表作</li></ul></div>
+        <div class="mini t"><div class="cap">證照目標</div><ul>
+          <li>補齊仍缺的乙級 / Autodesk Professional</li>
+          <li>國外路線：完成 <b>IELTS 6.0–6.5</b>（部分名校要 6.5+）</li></ul></div>
+        <div class="mini g"><div class="cap">升學主戰場（國內）</div><ul>
+          <li>統一入學測驗（約每年 4–5 月）</li>
+          <li>四技二專甄選入學：一階篩選→二階備審＋面試</li>
+          <li>備妥技優 / 繁星 / 聯合分發等多重管道</li></ul></div>
+        <div class="mini b"><div class="cap">國外路線（備援）</div><ul>
+          <li>約前一年秋冬投遞：英美日名校＋銜接課程</li>
+          <li>準備作品集、Personal Statement、面試</li>
+          <li>投遞教育部及校方獎學金</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">⚠️ 統測、甄選、國外申請的實際日程每年會微調，正式期程以「技專校院招生策略委員會」、各校招生簡章與各國校方公告為準。</div>
+</section>
+
+<!-- ============ CERTS ============ -->
+<section class="panel" id="certs">
+  <h2 class="sec">證照地圖 · 建議考取順序</h2>
+  <p class="lead">下面是<b>一條照時間排好的考照路線</b>：從 ① 開始，依編號往下走就對了。編號＝先後順序；顏色＝類別（英文／繪圖／專業）；右邊小標＝難度（只是參考，不是順序）。</p>
+
+  <div class="legend">
+    <b>圖例：</b>
+    <span class="lg"><span class="dot en"></span>英文檢定</span>
+    <span class="lg"><span class="dot cad"></span>繪圖 / BIM 國際證照</span>
+    <span class="lg"><span class="dot pro"></span>建築專業技術士</span>
+    <span class="lg">｜難度：<span class="diff d1">好入手</span> <span class="diff d2">中等</span> <span class="diff d3">較難</span></span>
+  </div>
+
+  <div class="filterbar" id="certfilter">
+    <button class="active" data-f="all">全部順序</button>
+    <button data-f="en">只看英文</button>
+    <button data-f="cad">只看繪圖/BIM</button>
+    <button data-f="pro">只看技術士</button>
+  </div>
+
+  <div class="roadmap" id="certgrid">
+
+    <div class="step" data-c="cad">
+      <div class="rail"><div class="num c-cad">1</div><div class="line"></div></div>
+      <div class="body"><span class="when">高一 上學期</span>
+        <h4>Autodesk Certified User（ACU）<span class="diff d1">好入手</span></h4>
+        <div class="catline">繪圖 / BIM · 國際證照</div>
+        <p>官方就是設計給<b>中學生／初學者</b>的入門認證，50 分鐘，AutoCAD 或 Revit 擇一。第一張先拿它，建立信心與國際證照起手式。</p></div>
+    </div>
+
+    <div class="step" data-c="pro">
+      <div class="rail"><div class="num c-pro">2</div><div class="line"></div></div>
+      <div class="body"><span class="when">高一 下學期</span>
+        <h4>丙級 建築製圖應用（手繪 或 電繪）<span class="diff d1">好入手</span></h4>
+        <div class="catline">建築專業技術士 · 國內</div>
+        <p>南港校內就是<b>甲乙丙級檢定場</b>、輔導通過率高，是最該優先拿下的專業證照。先考手繪或電繪其中一種。</p></div>
+    </div>
+
+    <div class="step" data-c="en">
+      <div class="rail"><div class="num c-en">3</div><div class="line"></div></div>
+      <div class="body"><span class="when">高一 暑假</span>
+        <h4>TOEIC 多益（先測基準）<span class="diff d2">中等</span></h4>
+        <div class="catline">英文檢定 · 職場/國內</div>
+        <p>先考一次抓自己的起點分數（目標實測 ≥ 600），之後才知道要補多少。你會考 A～A+，起點本來就不錯。</p></div>
+    </div>
+
+    <div class="step" data-c="pro">
+      <div class="rail"><div class="num c-pro">4</div><div class="line"></div></div>
+      <div class="body"><span class="when">高二 上學期</span>
+        <h4>丙級 測量<span class="diff d1">好入手</span></h4>
+        <div class="catline">建築專業技術士 · 國內</div>
+        <p>直接對應統測專業二「測量實習」，<b>考證＝同時練統測</b>，一舉兩得。</p></div>
+    </div>
+
+    <div class="step" data-c="en">
+      <div class="rail"><div class="num c-en">5</div><div class="line"></div></div>
+      <div class="body"><span class="when">高二 全年</span>
+        <h4>TOEIC 多益（衝高分）<span class="diff d2">中等</span></h4>
+        <div class="catline">英文檢定 · 職場/國內</div>
+        <p>主力英檢，<b>目標 750 → 850+</b>。這是甄選備審與科大的實用加分，也是你相對別人的最大優勢。</p></div>
+    </div>
+
+    <div class="step" data-c="pro">
+      <div class="rail"><div class="num c-pro">6</div><div class="line"></div></div>
+      <div class="body"><span class="when">高二 下學期</span>
+        <h4>乙級 建築製圖應用<span class="diff d3">較難</span></h4>
+        <div class="catline">建築專業技術士 · 國內</div>
+        <p>含金量更高，是<b>技優入學的重要門票</b>、甄選備審的強力加分。校內即可檢定。</p></div>
+    </div>
+
+    <div class="step" data-c="cad">
+      <div class="rail"><div class="num c-cad">7</div><div class="line"></div></div>
+      <div class="body"><span class="when">高二暑假 ～ 高三</span>
+        <h4>Autodesk Certified Professional — Revit 建築<span class="diff d3">較難</span></h4>
+        <div class="catline">繪圖 / BIM · 國際證照</div>
+        <p>120 分鐘的進階認證，證明 BIM 建模與圖說能力，<b>直接對接業界 Revit 工作流</b>。（可另補 AutoCAD Professional。）</p></div>
+    </div>
+
+    <div class="step" data-c="en">
+      <div class="rail"><div class="num c-en">8</div><div class="line"></div></div>
+      <div class="body"><span class="when">高三（走國外才需要）</span>
+        <h4>IELTS 雅思 6.0–6.5<span class="diff d3">較難</span></h4>
+        <div class="catline">英文檢定 · 留學</div>
+        <p>要申請國外建築系才需要（名校 6.5+）。美國/日本英語學程也可改考 TOEFL 80–100。只走國內就可略過。</p></div>
+    </div>
+
+    <div class="step opt" data-c="cad">
+      <div class="rail"><div class="num">＋</div><div class="line"></div></div>
+      <div class="body"><span class="when">彈性 · 選配</span>
+        <h4>SketchUp / Adobe Certified<span class="diff d2">中等</span></h4>
+        <div class="catline">繪圖 / 視覺 · 國際證照</div>
+        <p>SketchUp 快速方案發想、Adobe（Photoshop/Illustrator/InDesign）做作品集排版與圖面後製。時間有餘、或走國外者可加，讓作品集更完整。</p></div>
+    </div>
+
+    <div class="step opt" data-c="pro">
+      <div class="rail"><div class="num">＋</div></div>
+      <div class="body"><span class="when">彈性 · 畢業後 / 大學再考</span>
+        <h4>建築物室內裝修（施工 / 設計）<span class="diff d2">中等</span></h4>
+        <div class="catline">建築專業技術士 · 進階</div>
+        <p>對室內設計有興趣的延伸選項；部分項別需實務經驗，適合畢業後或大學階段再考，不必擠進高中三年。</p></div>
+    </div>
+
+  </div>
+
+  <div class="callout"><b>一句話記住順序：</b>高一先拿「最好入手」的 ①ACU＋②丙級製圖 建立信心 → 高二補 ④測量、衝 ⑤多益、挑戰 ⑥乙級製圖 → 高二暑假起攻 ⑦Revit 專業認證 → 只有走國外才要在高三加考 ⑧IELTS。<b>①〜⑦ 是每個人都建議走的主線，⑧ 與「＋選配」看方向再決定。</b></div>
+</section>
+
+<!-- ============ DOMESTIC ============ -->
+<section class="panel" id="domestic">
+  <h2 class="sec">國內升學：前三大科大 × 頂尖建築系</h2>
+  <p class="lead">建築科主力管道是<b>統測 → 四技二專甄選入學</b>，鎖定台科大、北科大、雲科大建築系；並保留學測 / 特殊選才通往一般大學頂尖建築系的機會。多管道並進＝多重保險。</p>
+
+  <h3 class="blk">統測要考什麼？（土木與建築群）</h3>
+  <div class="grid g2">
+    <div class="card"><h4>共同科目</h4><p>國文、英文、數學（英文正是你的相對優勢，會考 A～A+ 可轉成領先）。</p></div>
+    <div class="card"><h4>專業科目</h4>
+      <p><b>專業一：</b>基礎工程力學、材料與試驗</p>
+      <p><b>專業二：</b>測量實習、製圖實習</p>
+      <p class="src">＊部分建築系另收「設計群」（考設計概論＋術科）——若設計性向強，高二可評估雙軌。</p></div>
+  </div>
+
+  <h3 class="blk t">目標科大建築系比較</h3>
+  <div class="scrollhint">← 左右滑動看完整表格 →</div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>學校 / 系</th><th>定位與特色</th><th>主要入學管道</th><th>適配重點</th></tr></thead>
+      <tbody>
+        <tr><td><b>台科大 建築系</b> <span class="star">★</span></td>
+          <td>技職龍頭，設計取向強、國際交流活躍；學士＋碩士完整。</td>
+          <td>四技二專甄選（土木建築群 / 設計群）、聯合分發、繁星、技優</td>
+          <td>作品集 + 乙級製圖 + 競賽獎項最吃香</td></tr>
+        <tr><td><b>北科大 建築系</b> <span class="star">★</span></td>
+          <td>五大主軸：設計實作、永續、跨域技術整合、職場競爭力、國際交流。</td>
+          <td>四技甄選（土木建築群約 16 名／設計群約 10 名）、聯合分發、四技申請（學測）、技職特才（需外語或技術專長）</td>
+          <td>你的英文優勢＋國際證照非常契合「技職特才」與國際交流</td></tr>
+        <tr><td><b>雲科大 建築與室內設計系</b></td>
+          <td>建築＋室內設計並重，設計實作能量強。</td>
+          <td>四技二專甄選、聯合分發、繁星</td>
+          <td>對室內／空間設計有興趣者的好選擇</td></tr>
+        <tr><td><b>其他可鎖定</b></td>
+          <td>高科大、聯合大學等土木建築 / 空間設計相關系。</td>
+          <td>統測各管道</td>
+          <td>作安全校系配置</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="src">名額與科目為近年概況，實際以各年度招生簡章為準。</p>
+
+  <h3 class="blk g">多元管道（越早準備越有利）</h3>
+  <div class="grid g4">
+    <div class="card"><h4>甄選入學</h4><p>統測成績一階篩選 → 二階備審＋面試。<b>作品集、證照、競賽</b>決勝負。</p></div>
+    <div class="card"><h4>技優入學</h4><p>憑<b>全國技藝競賽名次或乙級以上證照</b>保送 / 甄審，證照與競賽是關鍵。</p></div>
+    <div class="card"><h4>繁星計畫</h4><p>看在校成績。<b>把高一高二每學期成績顧好</b>就是門票。</p></div>
+    <div class="card"><h4>聯合登記分發</h4><p>純看統測分數的最後一關，衝刺分數的保底。</p></div>
+  </div>
+
+  <div class="callout"><b>一般大學建築系（第二軌）：</b>成大、淡江、東海、陽明交大等頂尖建築系主要收學測生。若想保留這條路，需高三另備學測，或走<b>特殊選才</b>（以作品集、競賽、專長申請，正好對應你的證照與作品集）。建議高二定案是否雙軌。</div>
+</section>
+
+<!-- ============ OVERSEAS ============ -->
+<section class="panel" id="overseas">
+  <h2 class="sec">國外建築系：推薦 · 面試 · 獎學金</h2>
+  <p class="lead">國外採「作品集 + 語言 + 推薦信 + 面試」的申請制，正好把三年累積的證照與作品集直接變現。台灣高職生通常需要一年<b>銜接 / 預科（Foundation）</b>再進大學部。以下為主要選項與資源。</p>
+
+  <h3 class="blk b">各國制度與門檻速覽</h3>
+  <div class="scrollhint">← 左右滑動看完整表格 →</div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>國家 / 地區</th><th>學制重點</th><th>語言門檻（大學部參考）</th><th>申請關鍵</th></tr></thead>
+      <tbody>
+        <tr><td><b>英國</b> 🇬🇧</td>
+          <td>RIBA Part 1（大學 3 年）→ Part 2（碩士 2 年）→ Part 3（實務）。台灣高中生多需先讀 Foundation。</td>
+          <td>IELTS 約 6.0–6.5（名校 6.5+）</td>
+          <td>作品集 + UCAS 申請；名校如 UCL Bartlett、Bath、Sheffield、Cardiff、Edinburgh</td></tr>
+        <tr><td><b>美國</b> 🇺🇸</td>
+          <td>B.Arch 5 年（可直接取得專業學位）或 4 年 BA/BS + M.Arch。</td>
+          <td>TOEFL 約 80–100 或 IELTS 6.5</td>
+          <td>作品集 + SAT（部分免）+ 文書 + 推薦信；重視個人特質</td></tr>
+        <tr><td><b>日本</b> 🇯🇵</td>
+          <td>大學 4 年（＋研究所）。英語學程或日語學程；日語學程需 JLPT。</td>
+          <td>英語授課：TOEFL/IELTS；日語授課：JLPT N2+ + EJU</td>
+          <td>地緣近、學費相對友善；部分名校（東大、東工大等）競爭激烈</td></tr>
+        <tr><td><b>新加坡</b> 🇸🇬</td>
+          <td>NUS、SUTD 建築 4 年，亞洲頂尖、英語授課。</td>
+          <td>IELTS 6.5 / TOEFL 90+</td>
+          <td>成績 + 作品集 + 面試；提供國際學生助學方案</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk p">面試與作品集怎麼準備</h3>
+  <div class="grid g3">
+    <div class="card"><h4>作品集 Portfolio</h4><p>10–20 頁，展現<b>設計思考過程</b>而非只有成品：草圖、發想、手繪、模型、Revit/SketchUp 建模、後製排版。三年的專題與競賽作品就是素材庫。</p></div>
+    <div class="card"><h4>面試 Interview</h4><p>多為線上，考<b>英文表達＋對作品的說明</b>。用你的英文優勢，練習用英文講三件代表作的概念與取捨。</p></div>
+    <div class="card"><h4>文書 & 推薦信</h4><p>Personal Statement 講清楚「為什麼是建築、為什麼是這所學校」；請專業科老師 / 導師寫推薦信，及早溝通。</p></div>
+  </div>
+
+  <h3 class="blk g">獎學金與補助資源</h3>
+  <div class="grid g2">
+    <div class="card"><h4>教育部管道</h4>
+      <p>• <b>藝術與設計菁英海外培訓計畫（SPOSAD）</b>：設計相關領域的全額海外培訓補助。</p>
+      <p>• <b>教育部公費留學</b>、學海系列（大學階段海外實習 / 交換補助）。</p>
+      <p class="src">實際資格與名額以各年度簡章為準。</p></div>
+    <div class="card"><h4>校方 / 民間管道</h4>
+      <p>• 各國大學提供的 <b>International Student Scholarship / Merit Award</b>（憑成績與作品集）。</p>
+      <p>• 民間企業與基金會留學獎學金。</p>
+      <p class="src">越強的作品集與語言成績，越容易拿到 merit-based 減免。</p></div>
+  </div>
+
+  <div class="note">💡 國外路線建議定位為「高機會就走、沒到位也不影響國內錄取」的<b>備援選項</b>：把國內統測與甄選顧好當主力，國外用同一套作品集與 IELTS 加碼申請，風險最低、報酬最高。</div>
+</section>
+
+<!-- ============ INDUSTRY ============ -->
+<section class="panel" id="industry">
+  <h2 class="sec">產業銜接：學的每一步都對得上業界</h2>
+  <p class="lead">建築產業正全面走向 BIM 協作。學校已導入 Revit、SketchUp 與 3D 專題，這份規劃刻意讓「證照＝業界工具」「作品集＝實務作品」，畢業即具備可用技能。</p>
+
+  <h3 class="blk">技能 → 產業對照</h3>
+  <div class="scrollhint">← 左右滑動看完整表格 →</div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>你在學校/證照學到的</th><th>對應的產業角色</th><th>銜接方式</th></tr></thead>
+      <tbody>
+        <tr><td>AutoCAD 2D 製圖 + 建築製圖技術士</td><td>建築師事務所繪圖員、營造圖務</td><td>暑期實習、工讀累積實戰</td></tr>
+        <tr><td>Revit（Autodesk Professional）+ BIM 專題</td><td>BIM 建模師 / BIM 工程師（產業高需求）</td><td>大學延續深化，畢業即戰力</td></tr>
+        <tr><td>SketchUp / 設計專題 / 作品集</td><td>設計提案、室內設計、視覺</td><td>接案、競圖、設計工作室</td></tr>
+        <tr><td>測量技術士 + 力學/材料</td><td>工地監造、測量、施工管理</td><td>營造廠、公共工程</td></tr>
+        <tr><td>英文（TOEIC/IELTS）</td><td>國際事務所、外商營建、跨國專案</td><td>拉開與同儕差距的關鍵</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk t">往上延伸的專業資格（大學之後的地圖）</h3>
+  <div class="grid g3">
+    <div class="card"><h4>建築師</h4><p>大學建築系畢業 → 實務經驗 → <b>建築師高考</b>。三年的製圖與設計底子是起點。</p></div>
+    <div class="card"><h4>土木 / 結構技師</h4><p>走工程實作路線者的國家考試方向，與力學、材料基礎相接。</p></div>
+    <div class="card"><h4>BIM / 國際專業</h4><p>Autodesk 專業認證可一路升級，對應國內外 BIM 職缺與國際事務所。</p></div>
+  </div>
+
+  <div class="callout"><b>核心心法：</b>每學期都問一句——「這學到的東西，事務所 / 營造廠會怎麼用？」讓證照不是為考而考，而是把作品集養成一份「能直接拿去面試實習」的實力證明。</div>
+</section>
+
+<!-- ============ ACTION ============ -->
+<section class="panel" id="action">
+  <h2 class="sec">行動檢核表</h2>
+  <p class="lead">把三年拆成可勾選的具體任務。勾選會即時更新進度條（僅本次瀏覽有效，關閉不保存；可截圖或列印保存）。</p>
+
+  <div class="prog">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <b>整體進度</b><span id="progtxt" style="font-weight:800;color:var(--teal)">0 / 0（0%）</span>
+    </div>
+    <div class="bar"><i id="progbar"></i></div>
+  </div>
+
+  <h3 class="blk">高一 · 打底</h3>
+  <ul class="checklist" data-group>
+    <li><span class="cbox">✓</span><span class="txt">建立「作品集雲端資料夾」，每份作業拍照歸檔<small>貫穿三年的素材庫</small></span></li>
+    <li><span class="cbox">✓</span><span class="txt">報考丙級建築製圖應用（手繪或電繪）<small>校內即檢定場</small></span></li>
+    <li><span class="cbox">✓</span><span class="txt">考 Autodesk Certified User（AutoCAD 或 Revit）<small>入門國際證照</small></span></li>
+    <li><span class="cbox">✓</span><span class="txt">打一次 TOEIC 模擬抓基準，維持國英數成績<small>繁星＆統測都靠在校成績</small></span></li>
+    <li><span class="cbox">✓</span><span class="txt">參加一場設計 / 製圖競賽<small>備審第一筆紀錄</small></span></li>
+  </ul>
+
+  <h3 class="blk t">高二 · 進階</h3>
+  <ul class="checklist" data-group>
+    <li><span class="cbox">✓</span><span class="txt">考乙級建築製圖應用<small>技優與甄選強力加分</small></span></li>
+    <li><span class="cbox">✓</span><span class="txt">加考測量丙級<small>同步強化統測專業二</small></span></li>
+    <li><span class="cbox">✓</span><span class="txt">考 Autodesk Certified Professional（Revit 建築）<small>對接業界 BIM</small></span></li>
+    <li><span class="cbox">✓</span><span class="txt">TOEIC 衝 750→850+<small>會考 A~A+ 的優勢變現</small></span></li>
+    <li><span class="cbox">✓</span><span class="txt">完成正式作品集初版（3–5 件代表作）</span></li>
+    <li><span class="cbox">✓</span><span class="txt">決定升學主戰場，列 2 夢幻 + 2 安全校系</span></li>
+    <li><span class="cbox">✓</span><span class="txt">（走國外）暑假起接觸 IELTS，目標 5.5–6.0</span></li>
+  </ul>
+
+  <h3 class="blk b">高三 · 收成</h3>
+  <ul class="checklist" data-group>
+    <li><span class="cbox">✓</span><span class="txt">統測總複習：國英數＋專業一（力學/材料）＋專業二（測量/製圖）</span></li>
+    <li><span class="cbox">✓</span><span class="txt">完成甄選備審：作品集終版＋自傳＋證照競賽整理</span></li>
+    <li><span class="cbox">✓</span><span class="txt">練習二階面試（含英文自我介紹與作品解說）</span></li>
+    <li><span class="cbox">✓</span><span class="txt">（走國外）完成 IELTS 6.0–6.5、投遞申請與作品集</span></li>
+    <li><span class="cbox">✓</span><span class="txt">（走國外）投遞教育部 / 校方獎學金</span></li>
+    <li><span class="cbox">✓</span><span class="txt">確認多管道都有投：甄選＋技優＋繁星＋聯合分發</span></li>
+  </ul>
+
+  <div class="note">🗂️ 你把資料夾連上（Claude 桌面版「Add folder」）後，我可以依裡面實際的成績、興趣與家庭考量，把上面的目標分數、校系與時程再客製化一版。</div>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <p><b>南港高工建築科三年生涯規劃儀表板</b> · 製作日期 2026-08-18 · 供學生與家長長期參考使用。所有名額、科目、門檻與獎學金為近年概況，正式資訊請以各官方招生簡章 / 校方公告為準。</p>
+  <p class="src">主要參考：南港高工建築科官網、技專校院招生策略委員會 / 大學問（統測群類與科大建築系）、Autodesk 官方認證、104 證照中心 / 勞動部技能檢定、各國建築系與留學資源。</p>
+</footer>
+
+<script>
+  // Tabs
+  const tabs=document.querySelectorAll('#tabbar button');
+  const panels=document.querySelectorAll('.panel');
+  tabs.forEach(b=>b.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    panels.forEach(p=>p.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(b.dataset.t).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }));
+
+  // Timeline accordion
+  document.querySelectorAll('.tl-head').forEach(h=>{
+    h.addEventListener('click',()=>h.parentElement.classList.toggle('open'));
+  });
+
+  // Cert filter
+  const fbtns=document.querySelectorAll('#certfilter button');
+  const cards=document.querySelectorAll('#certgrid .step');
+  fbtns.forEach(b=>b.addEventListener('click',()=>{
+    fbtns.forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const f=b.dataset.f;
+    cards.forEach(c=>{c.style.display=(f==='all'||c.dataset.c===f)?'flex':'none';});
+  }));
+
+  // Checklist + progress
+  const items=document.querySelectorAll('.checklist li');
+  const bar=document.getElementById('progbar');
+  const txt=document.getElementById('progtxt');
+  function update(){
+    const done=document.querySelectorAll('.checklist li.done').length;
+    const total=items.length;
+    const pct=total?Math.round(done/total*100):0;
+    bar.style.width=pct+'%';
+    txt.textContent=done+' / '+total+'（'+pct+'%）';
+  }
+  items.forEach(li=>li.addEventListener('click',()=>{li.classList.toggle('done');update();}));
+  update();
+</script>
+</body>
+</html>
