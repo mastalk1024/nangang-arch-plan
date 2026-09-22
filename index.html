@@ -196,6 +196,22 @@
   }
   .scrollhint{display:none;font-size:11.5px;color:var(--muted);margin:-8px 0 10px;text-align:right}
   @media print{nav.tabs{display:none}section.panel{display:block!important}.tl-body{display:block!important}.scrollhint{display:none!important}}
+  /* subject credit disclosure */
+  details.subj{border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden}
+  details.subj>summary{list-style:none;cursor:pointer;padding:13px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-weight:800;font-size:15px}
+  details.subj>summary::-webkit-details-marker{display:none}
+  details.subj>summary::after{content:"▸ 展開每科學分";margin-left:auto;font-size:12.5px;color:var(--teal);font-weight:700}
+  details.subj[open]>summary::after{content:"▾ 收合"}
+  details.subj>summary:hover{background:#faf7f0}
+  .sumtag{font-size:12px;font-weight:800;padding:2px 10px;border-radius:999px}
+  .sumtag.a{background:var(--gold-soft);color:#7d5c15}.sumtag.b{background:var(--teal-soft);color:#1f4b49}
+  .subjbody{padding:2px 16px 14px;display:grid;grid-template-columns:1fr 1fr;gap:18px;border-top:1px solid var(--line)}
+  @media(max-width:620px){.subjbody{grid-template-columns:1fr}}
+  .subjcol h5{margin:12px 0 4px;font-size:13px;color:var(--terra);font-weight:800;border-bottom:1px solid var(--line);padding-bottom:5px}
+  .subjcol .r{display:flex;justify-content:space-between;font-size:13.4px;padding:4px 0;border-bottom:1px dotted var(--line2)}
+  .subjcol .r b{color:var(--ink)}
+  .subjcol .tot{display:flex;justify-content:space-between;font-size:13.6px;font-weight:800;margin-top:7px;color:var(--teal)}
+  @media print{details.subj>*{display:block!important}details.subj>summary::after{content:""}}
 </style>
 </head>
 <body>
@@ -350,15 +366,67 @@
   </div>
 
   <h3 class="blk">各年課程學分與畢業條件（校方 115 學校日）</h3>
-  <div class="scrollhint">← 左右滑動看完整表格 →</div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>年級</th><th>一般科目</th><th>專業／實習科目（重點）</th></tr></thead>
-    <tbody>
-      <tr><td><b>高一 融入</b></td><td>21 學分<br><span class="src">國3英4數4＋基礎物理、計概、健護等</span></td><td>12 學分：製圖實習(4)、測量實習(4)、工程技術概論、建築素描(建築基本設計)</td></tr>
-      <tr><td><b>高二 廣化</b></td><td>19 學分<br><span class="src">國4英4數4＋化學、地理等</span></td><td>14 學分：電腦輔助製圖實習(3)、基礎工程力學(3)、營建技術實習(3)、工程勘測應用、材料試驗</td></tr>
-      <tr><td><b>高三 精進</b></td><td>15 學分<br><span class="src">國4英4數3＋歷史、體育</span></td><td>18 學分：專題製作(3)、建築結構概論(3)、建築製圖實習(3)、電腦繪圖實習、設計與技術實習、空間測量</td></tr>
-    </tbody>
-  </table></div>
+  <p class="src" style="margin:0 0 10px">點各年度可展開每一科的學分明細（未展開時只顯示總學分）。</p>
+  <details class="subj"><summary>高一 融入 <span class="sumtag a">一般 21 學分</span> <span class="sumtag b">專業 12 學分</span></summary>
+    <div class="subjbody">
+      <div class="subjcol"><h5>一般科目（21 學分）</h5>
+        <div class="r"><span>國文</span><b>3</b></div>
+        <div class="r"><span>英文</span><b>4</b></div>
+        <div class="r"><span>數學</span><b>4</b></div>
+        <div class="r"><span>基礎物理</span><b>2</b></div>
+        <div class="r"><span>健康與護理</span><b>1</b></div>
+        <div class="r"><span>本土語言</span><b>1</b></div>
+        <div class="r"><span>音樂／美術</span><b>2</b></div>
+        <div class="r"><span>體育</span><b>2</b></div>
+        <div class="r"><span>計算機概論</span><b>2</b></div>
+        <div class="tot"><span>小計</span><span>21</span></div></div>
+      <div class="subjcol"><h5>專業科目（12 學分）</h5>
+        <div class="r"><span>工程技術概論</span><b>2</b></div>
+        <div class="r"><span>彈性課程（材料與試驗）</span><b>1</b></div>
+        <div class="r"><span>製圖實習</span><b>4</b></div>
+        <div class="r"><span>測量實習</span><b>4</b></div>
+        <div class="r"><span>建築素描（建築基本設計）</span><b>1</b></div>
+        <div class="tot"><span>小計</span><span>12</span></div></div>
+    </div></details>
+  <details class="subj"><summary>高二 廣化 <span class="sumtag a">一般 19 學分</span> <span class="sumtag b">專業 14 學分</span></summary>
+    <div class="subjbody">
+      <div class="subjcol"><h5>一般科目（19 學分）</h5>
+        <div class="r"><span>國文</span><b>4</b></div>
+        <div class="r"><span>英文</span><b>4</b></div>
+        <div class="r"><span>數學</span><b>4</b></div>
+        <div class="r"><span>體育</span><b>2</b></div>
+        <div class="r"><span>化學</span><b>2</b></div>
+        <div class="r"><span>地理</span><b>2</b></div>
+        <div class="r"><span>全民國防</span><b>1</b></div>
+        <div class="tot"><span>小計</span><span>19</span></div></div>
+      <div class="subjcol"><h5>專業科目（14 學分）</h5>
+        <div class="r"><span>工程勘測應用</span><b>2</b></div>
+        <div class="r"><span>材料試驗</span><b>2</b></div>
+        <div class="r"><span>電腦輔助製圖實習</span><b>3</b></div>
+        <div class="r"><span>基礎工程力學</span><b>3</b></div>
+        <div class="r"><span>營建技術實習</span><b>3</b></div>
+        <div class="r"><span>彈性學習</span><b>1</b></div>
+        <div class="tot"><span>小計</span><span>14</span></div></div>
+    </div></details>
+  <details class="subj"><summary>高三 精進 <span class="sumtag a">一般 15 學分</span> <span class="sumtag b">專業 18 學分</span></summary>
+    <div class="subjbody">
+      <div class="subjcol"><h5>一般科目（15 學分）</h5>
+        <div class="r"><span>國文</span><b>4</b></div>
+        <div class="r"><span>英文</span><b>4</b></div>
+        <div class="r"><span>數學</span><b>3</b></div>
+        <div class="r"><span>體育</span><b>2</b></div>
+        <div class="r"><span>歷史</span><b>2</b></div>
+        <div class="tot"><span>小計</span><span>15</span></div></div>
+      <div class="subjcol"><h5>專業科目（18 學分）</h5>
+        <div class="r"><span>建築製圖實習</span><b>3</b></div>
+        <div class="r"><span>建築材料</span><b>2+1</b></div>
+        <div class="r"><span>電腦繪圖實習</span><b>2</b></div>
+        <div class="r"><span>建築結構概論</span><b>3</b></div>
+        <div class="r"><span>專題製作</span><b>3</b></div>
+        <div class="r"><span>設計與技術實習</span><b>2</b></div>
+        <div class="r"><span>空間測量</span><b>2</b></div>
+        <div class="tot"><span>小計</span><span>18</span></div></div>
+    </div></details>
 
   <div class="grid g2">
     <div class="card"><span class="tag terra">畢業條件</span><h4>順利畢業要達成</h4>
